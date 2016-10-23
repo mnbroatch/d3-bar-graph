@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 
 import d3Chart from '../d3/d3Chart';
-import d3ChartLeftControls from './ChartLeftControls';
+import ChartLeftControls from './ChartLeftControls';
 // import d3ChartBottomControls from './ChartBottomControls';
 
 class Chart extends React.Component {
@@ -10,18 +10,18 @@ class Chart extends React.Component {
     this.state = {
       data: this.props.data,
       yAxis: 'age',
-      course: 1,
+      xAxis: 'score1',
     };
     this.changeYAxis = this.changeYAxis.bind(this);
-    this.changeCourse = this.changeCourse.bind(this);
+    this.changeXAxis = this.changeXAxis.bind(this);
   }
 
   changeYAxis(yAxis) {
     this.setState({ yAxis });
   }
 
-  changeCourse(course) {
-    this.setState({ course });
+  changeXAxis(xAxis) {
+    this.setState({ xAxis });
   }
 
   componentDidMount() {
@@ -29,10 +29,17 @@ class Chart extends React.Component {
     d3Chart.create(el, this.state);
   }
 
+  //  for now we have to pass field names in as props.
+  //  changing shape of data could eliminate this step
   render() {
     return (
       <div className="d3-chart">
-        <d3ChartLeftControls />
+        <ChartLeftControls
+          changeYAxis={this.changeYAxis}
+          height
+          age
+          weight
+        />
         <div ref="d3ChartRef" className={"d3-chart__container"} />
       </div>
     );

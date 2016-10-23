@@ -2,35 +2,22 @@ import React, { PropTypes } from 'react';
 
 import Chart from './Chart';
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: this.props.store,
-      yAxis: "height",
-      course: 1,
-    };
-  }
-
-  render() {
-    return (
-      <div>
-        <Chart
-          data={this.state.data}
-          yAxis={this.state.yAxis}
-          course={this.state.course}
-        />
-      </div>
-    );
-  }
-}
+const App = ({ store }) => (
+    <Chart data={store} />
+);
 
 App.propTypes = {
   store: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
+      age: PropTypes.number.isRequired,
+      color: PropTypes.string.isRequired,
       height: PropTypes.number.isRequired,
-      score: PropTypes.number.isRequired,
+      weight: PropTypes.number.isRequired,
+      score1: PropTypes.number.isRequired,
+      score2: PropTypes.number.isRequired,
+      score3: PropTypes.number.isRequired,
+      score4: PropTypes.number.isRequired,
     })
   )
     .isRequired,

@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 
 const buttonLabels = {
   score1: 'Course 1',
@@ -9,19 +9,23 @@ const buttonLabels = {
 
 const ChartBottomControls = (props) => {
   //  all prop keys besides changeXAxis and xAxis are field names
-  let fields = Object.keys(props).filter(el => el !== 'changeXAxis' && el !== 'xAxis');
+  const fields = Object.keys(props).filter(el => el !== 'changeXAxis' && el !== 'xAxis');
 
-  let controls = fields.map(field => (
-      <button key={field} className="bottom-controls__button" onClick={ () => props.changeXAxis(field) }>
-        {buttonLabels[field]}
-      </button>
-  ));
+  const controls = fields.map(field =>
+    (<button
+      key={field}
+      className="bottom-controls__button"
+      onClick={() => props.changeXAxis(field)}
+    >
+      {buttonLabels[field]}
+    </button>)
+  );
 
-    return (
-      <div className="bottom-controls">
-        {controls}
-      </div>
-    )
-}
+  return (
+    <div className="bottom-controls">
+      {controls}
+    </div>
+  );
+};
 
 export default ChartBottomControls;

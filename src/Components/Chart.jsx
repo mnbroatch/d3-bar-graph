@@ -1,10 +1,10 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 
 import d3Chart from '../d3/d3Chart';
 import ChartLeftControls from './ChartLeftControls';
 import ChartBottomControls from './ChartBottomControls';
 
-let d3 = require('d3');
+const d3 = require('d3');
 
 class Chart extends React.Component {
   constructor(props) {
@@ -18,21 +18,13 @@ class Chart extends React.Component {
     this.changeXAxis = this.changeXAxis.bind(this);
   }
 
-  changeYAxis(yAxis) {
-    this.setState({ yAxis });
-  }
-
-  changeXAxis(xAxis) {
-    this.setState({ xAxis });
-  }
-
   componentDidMount() {
-    var el = this.refs.d3ChartRef;
+    const el = this.d3ChartRef;
     d3Chart.create(el, this.state);
 
     d3.csv('./data.csv',
-      datum => {
-        return {
+      datum =>
+        ({
           id: +datum['Judge id'],
           age: +datum['Judge age'],
           height: +datum['Judge Height (cm)'],
@@ -42,19 +34,24 @@ class Chart extends React.Component {
           score2: +datum['Score after course 2'],
           score3: +datum['Score after course 3'],
           score4: +datum['Score after course 4'],
-        };
-      },
-      data => {
+        }),
+      (data) => {
         this.setState({ data });
       });
   }
 
   componentDidUpdate() {
-    console.log('update')
-    var el = this.refs.d3ChartRef;
+    const el = this.d3ChartRef;
     d3Chart.update(el, this.state);
   }
 
+  changeYAxis(yAxis) {
+    this.setState({ yAxis });
+  }
+
+  changeXAxis(xAxis) {
+    this.setState({ xAxis });
+  }
 
   //  for now we have to pass field names in as props
   //  with axis labels as the values.
@@ -69,7 +66,10 @@ class Chart extends React.Component {
           height
           weight
         />
-        <div ref="d3ChartRef" className={"d3-chart__container"} />
+        <div
+          ref={(c) => { this.d3ChartRef = c; }}
+          className={'d3-chart__container'}
+        />
         <br />
         <ChartBottomControls
           changeXAxis={this.changeXAxis}

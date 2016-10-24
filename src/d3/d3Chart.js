@@ -76,8 +76,12 @@ d3Chart._drawAxes = function (el, scale, state) {
     .call(axisBottom);
 
   svg.append('text')
-  .text('hey')
+    .text('y axis label')
+    .attr('transform', `translate(${margin.left / 2.5}, ${el.offsetHeight / 2}) rotate(-90)`)
 
+  svg.append('text')
+    .text('x axis label')
+    .attr('transform', `translate(${el.offsetWidth / 2}, ${el.offsetHeight - margin.bottom / 2.5})`)
 }
 
 d3Chart._drawBars = function (el, scale, state) {

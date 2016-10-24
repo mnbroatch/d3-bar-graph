@@ -5,7 +5,8 @@ const build = process.env.NODE_ENV || 'development';
 const port = process.env.PORT || 3000;
 
 const devConfig = {
-  devtool: 'eval-cheap-module-sourcemap',
+  // devtool: 'eval-cheap-module-sourcemap',
+  devtool: 'sourcemap',
   entry: [
     'webpack-hot-middleware/client?reload=true',
     './src/index',
@@ -28,12 +29,21 @@ const devConfig = {
         include: path.resolve(__dirname, 'src'),
       },
       {
-        test: /\.(png|gif|jpg|jpeg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        test: /\.scss$/,
+        loaders: [
+          'style',
+          'css',
+          'postcss',
+          'sass',
+        ],
+      },
+      {
+        test: /\.(png|gif|jpg|ttf|jpeg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         loader: 'url?limit=10000?',
       },
       {
-        test: /\.(woff2?|ttf|eot|svg)(\?[\s\S]+)?$/,
-        loader: 'file?emitFile=false',
+        test: /\.(woff2?|eot|svg|csv)(\?[\s\S]+)?$/,
+        loader: 'file',
       },
     ],
   },
@@ -63,11 +73,20 @@ const prodConfig = {
         include: path.resolve(__dirname, 'src'),
       },
       {
+        test: /\.scss$/,
+        loaders: [
+          'style',
+          'css',
+          'postcss',
+          'sass',
+        ],
+      },
+      {
         test: /\.(png|gif|jpg|jpeg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         loader: 'url?limit=10000',
       },
       {
-        test: /\.(woff2?|ttf|eot|svg)(\?[\s\S]+)?$/,
+        test: /\.(woff2?|ttf|eot|svg|csv)(\?[\s\S]+)?$/,
         loader: 'file',
       },
     ],

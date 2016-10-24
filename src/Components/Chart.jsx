@@ -2,13 +2,15 @@ import React, { PropTypes } from 'react';
 
 import d3Chart from '../d3/d3Chart';
 import ChartLeftControls from './ChartLeftControls';
-// import d3ChartBottomControls from './ChartBottomControls';
+import ChartBottomControls from './ChartBottomControls';
+
+let d3 = require('d3');
 
 class Chart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: this.props.data,
+      data: null,
       yAxis: 'age',
       xAxis: 'score1',
     };
@@ -24,10 +26,42 @@ class Chart extends React.Component {
     this.setState({ xAxis });
   }
 
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps)
+    this.setState({
+      data: nextProps.data,
+    })
+  }
+
   componentDidMount() {
     var el = this.refs.d3ChartRef;
     d3Chart.create(el, this.state);
+
+    d3.csv('./data.csv',
+      datum => {
+        return {
+          id: +datum['Judge id'],
+          age: +datum['Judge age'],
+          height: +datum['Judge Height (cm)'],
+          weight: +datum['Judge Weight (kg)'],
+          color: datum['Clothes Color'].toLowerCase(),
+          score1: +datum['Score after course 1'],
+          score2: +datum['Score after course 2'],
+          score3: +datum['Score after course 3'],
+          score4: +datum['Score after course 4'],
+        }
+      },
+      data => {
+        this.setState({ data });
+      });
   }
+
+  componentDidUpdate() {
+    console.log('update')
+    var el = this.refs.d3ChartRef;
+    d3Chart.update(el, this.state);
+  }
+
 
   //  for now we have to pass field names in as props.
   //  changing shape of data could eliminate this step
@@ -41,6 +75,13 @@ class Chart extends React.Component {
           weight
         />
         <div ref="d3ChartRef" className={"d3-chart__container"} />
+        <ChartBottomControls
+          changeXAxis={this.changeXAxis}
+          score1
+          score2
+          score3
+          score4
+        />
       </div>
     );
   }

@@ -4,11 +4,17 @@ const ChartLeftControls = (props) => {
   //  all prop keys besides changeYAxis are field names
   let fields = Object.keys(props).filter(el => el !== 'changeYAxis');
 
-  console.log(fields)
+  let controls = fields.map(field => (
+    <div key={field}>
+      <button onClick={ () => props.changeYAxis(field) }>
+        {field}
+      </button>
+    </div>
+  ));
 
     return (
-      <div>
-        asdlaskjdalskdj 
+      <div className="left-controls" >
+        {controls}
       </div>
     )
 }

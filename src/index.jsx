@@ -2,10 +2,9 @@ import 'babel-polyfill';
 import React from 'react';
 import { render } from 'react-dom';
 import App from './Components/App';
-
-const store = {a: 'a', b: 'b'};
+import './Styles/main.scss';
 
 render(
-  <App store={store} />,
+  <App />,
   document.getElementById('app')
 );

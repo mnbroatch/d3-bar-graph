@@ -7,6 +7,16 @@ const barWidthFactor = .05;
 
 const d3Chart = {};
 
+const axisLabels = {
+  age: 'Judge age',
+  height: 'Judge Height (cm)',
+  weight: 'Judge Weight (kg)',
+  score1: 'Score after course 1',
+  score2: 'Score after course 2',
+  score3: 'Score after course 3',
+  score4: 'Score after course 4',
+};
+
 d3Chart.create = function (el, state) {
   const svg = d3.select(el).append('svg')
     .attr('class', 'd3-chart__svg')
@@ -65,6 +75,19 @@ d3Chart._drawAxes = function (el, scale, state) {
       .attr('class', 'd3-chart__svg__axis d3-chart__svg__axis--x')
       .attr('transform', `translate(${margin.left}, ${el.offsetHeight - margin.bottom})`)
       .call(axisBottom);
+
+    svg.append('text')
+      .attr('class', 'd3-chart__svg__axis-label d3-chart__svg__axis-label--y ')
+      .attr("text-anchor", "middle")
+      .text(axisLabels[state.yAxis])
+      .attr('transform', `translate(${margin.left / 2.5}, ${el.offsetHeight / 2}) rotate(-90)`)
+
+    svg.append('text')
+      .attr('class', 'd3-chart__svg__axis-label d3-chart__svg__axis-label--x ')
+      .attr("text-anchor", "middle")
+      .text(axisLabels[state.xAxis])
+      .attr('transform', `translate(${el.offsetWidth / 2}, ${el.offsetHeight - margin.bottom / 2.5})`)
+
   }
 
   d3.select('.d3-chart__svg__axis--y')
@@ -75,13 +98,12 @@ d3Chart._drawAxes = function (el, scale, state) {
     .transition(t)
     .call(axisBottom);
 
-  svg.append('text')
-    .text('y axis label')
-    .attr('transform', `translate(${margin.left / 2.5}, ${el.offsetHeight / 2}) rotate(-90)`)
+  d3.select('.d3-chart__svg__axis-label--y')
+    .text(axisLabels[state.yAxis])
 
-  svg.append('text')
-    .text('x axis label')
-    .attr('transform', `translate(${el.offsetWidth / 2}, ${el.offsetHeight - margin.bottom / 2.5})`)
+  d3.select('.d3-chart__svg__axis-label--x')
+    .text(axisLabels[state.xAxis])
+
 }
 
 d3Chart._drawBars = function (el, scale, state) {

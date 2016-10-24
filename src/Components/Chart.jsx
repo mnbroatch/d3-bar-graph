@@ -42,7 +42,7 @@ class Chart extends React.Component {
           score2: +datum['Score after course 2'],
           score3: +datum['Score after course 3'],
           score4: +datum['Score after course 4'],
-        }
+        };
       },
       data => {
         this.setState({ data });
@@ -64,17 +64,20 @@ class Chart extends React.Component {
       <div className="d3-chart">
         <ChartLeftControls
           changeYAxis={this.changeYAxis}
-          age="Judge Age"
-          height="Judge Height (cm)"
-          weight="Judge Weight (kg)"
+          yAxis={this.state.yAxis}
+          age
+          height
+          weight
         />
         <div ref="d3ChartRef" className={"d3-chart__container"} />
+        <br />
         <ChartBottomControls
           changeXAxis={this.changeXAxis}
-          score1="Score after course 1"
-          score2="Score after course 2"
-          score3="Score after course 3"
-          score4="Score after course 4"
+          xAxis={this.state.xAxis}
+          score1
+          score2
+          score3
+          score4
         />
       </div>
     );

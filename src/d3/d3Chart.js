@@ -1,7 +1,8 @@
 let d3 = require('d3');
 
-//  so chart has space for axis lines and to breathe a bit
-const margin = {left: 60, bottom: 60, right: 20, top: 20}
+//  in the future, margin and font size should be a
+//  function of chart size
+const margin = {left: 80, bottom: 80, right: 40, top: 40}
 const barWidthFactor = .05;
 
 const d3Chart = {};
@@ -54,25 +55,28 @@ d3Chart._drawAxes = function (el, scale, state) {
 
   const svg = d3.select('.d3-chart__svg')
 
-  if(d3.select('.d3-chart__svg__y-axis').empty()) {
+  if(d3.select('.d3-chart__svg__axis').empty()) {
     svg.append("g")
-      .attr('class', 'd3-chart__svg__y-axis')
+      .attr('class', 'd3-chart__svg__axis d3-chart__svg__axis--y')
       .attr('transform', `translate(${margin.left}, ${margin.top})`)
       .call(axisLeft);
 
     svg.append("g")
-      .attr('class', 'd3-chart__svg__x-axis')
+      .attr('class', 'd3-chart__svg__axis d3-chart__svg__axis--x')
       .attr('transform', `translate(${margin.left}, ${el.offsetHeight - margin.bottom})`)
       .call(axisBottom);
   }
 
-  let yAxis = d3.select('.d3-chart__svg__y-axis')
+  d3.select('.d3-chart__svg__axis--y')
     .transition(t)
     .call(axisLeft);
 
-  let xAxis = d3.select('.d3-chart__svg__x-axis')
+  d3.select('.d3-chart__svg__axis--x')
     .transition(t)
     .call(axisBottom);
+
+  svg.append('text')
+  .text('hey')
 
 }
 
@@ -97,7 +101,7 @@ d3Chart._drawBars = function (el, scale, state) {
     .attr('width', barWidth)
     .merge(bar)
     .transition(t)
-    .attr('height', judge => scale.y(judge[state.yAxis]))
+    .attr('height', judge => scale.y(judge[state.yAxis]) - 3)
     .attr('x', judge => scale.x(judge[state.xAxis]) - barWidth / 2)
     .attr('y', judge => {
       let score = judge[state.xAxis];

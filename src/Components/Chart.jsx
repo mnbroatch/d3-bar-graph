@@ -26,13 +26,6 @@ class Chart extends React.Component {
     this.setState({ xAxis });
   }
 
-  componentWillReceiveProps(nextProps) {
-    console.log(nextProps)
-    this.setState({
-      data: nextProps.data,
-    })
-  }
-
   componentDidMount() {
     var el = this.refs.d3ChartRef;
     d3Chart.create(el, this.state);
@@ -63,24 +56,25 @@ class Chart extends React.Component {
   }
 
 
-  //  for now we have to pass field names in as props.
-  //  changing shape of data could eliminate this step
+  //  for now we have to pass field names in as props
+  //  with axis labels as the values.
+  //  Changing shape of data could eliminate this step
   render() {
     return (
       <div className="d3-chart">
         <ChartLeftControls
           changeYAxis={this.changeYAxis}
-          height
-          age
-          weight
+          age="Judge Age"
+          height="Judge Height (cm)"
+          weight="Judge Weight (kg)"
         />
         <div ref="d3ChartRef" className={"d3-chart__container"} />
         <ChartBottomControls
           changeXAxis={this.changeXAxis}
-          score1
-          score2
-          score3
-          score4
+          score1="Score after course 1"
+          score2="Score after course 2"
+          score3="Score after course 3"
+          score4="Score after course 4"
         />
       </div>
     );
